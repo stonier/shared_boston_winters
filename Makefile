@@ -1,13 +1,17 @@
-CXX=g++
-CXXFLAGS=-g -Wall -Wextra -std=c++14
+all: 
+	mkdir -p build
+	cd build && cmake .. || exit $$?
+	cd build && make -j$(getconf _NPROCESSORS_ONLN) install || exit $$?	
 
-all: main libtest
-
-main: test.o
-	$(CXX) $(CXXFLAGS) -o main -fPIC test.o -ldl
-
-libtest:
-	$(CXX) $(CXXFLAGS) -shared -fPIC -o libtest.so libtest.cc
+help:
+	@echo ""
+	@echo "Valid Targets:"
+	@echo ""
+	@echo "    all       : cmake/make/install"
+	@echo "    clean     : clean all cmake project build and install directories"
+	@echo ""
 
 clean:
-	rm -f *~ *.o main
+	rm -rf build install
+
+.PHONY:  clean
