@@ -22,6 +22,16 @@ namespace sbw {
 ** Interfaces
 *****************************************************************************/
 
+class AgentPluginBase {
+public:
+  AgentPluginBase();
+  virtual ~AgentPluginBase();
+  virtual void init() = 0;
+  virtual void update() = 0;
+
+private:
+};
+
 /*****************************************************************************
 ** Trailers
 *****************************************************************************/

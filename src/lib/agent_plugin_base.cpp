@@ -7,6 +7,8 @@
 
 #include "../../include/sbw/agent_plugin_base.hpp"
 
+#include <iostream>
+
 /*****************************************************************************
 ** Namespaces
 *****************************************************************************/
@@ -16,6 +18,14 @@ namespace sbw {
 /*****************************************************************************
 ** Implementation
 *****************************************************************************/
+
+AgentPluginBase::AgentPluginBase() {
+  std::cout << "AgentPluginBase::AgentPluginBase()" << std::endl;
+}
+
+AgentPluginBase::~AgentPluginBase() {
+  std::cout << "AgentPluginBase::AgentPluginBase()" << std::endl;
+}
 
 /*****************************************************************************
  ** Trailers

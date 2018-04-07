@@ -19,7 +19,16 @@ namespace sbw {
 *****************************************************************************/
 
 Foo::Foo()  { std::cerr << "Foo::Foo()" << std::endl; }
+
 Foo::~Foo() { std::cerr << "Foo::~Foo()" << std::endl; }
+
+void Foo::init() {
+  std::cout << "Foo::init()" << std::endl;
+}
+
+void Foo::update() {
+  std::cout << "Foo::update()" << std::endl;
+}
 
 /*****************************************************************************
  ** Trailers
