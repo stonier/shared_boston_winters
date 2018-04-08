@@ -1,6 +1,11 @@
+# If using the usual binary location
+# DRAKE_DIR=/opt/drake/lib/cmake/drake
+# If building this inside the delphyne workspace
+DRAKE_DIR=../../install/lib/cmake/drake
+
 all: 
 	mkdir -p build
-	cd build && cmake .. || exit $$?
+	cd build && cmake -Ddrake_DIR=${DRAKE_DIR} .. || exit $$?
 	cd build && make -j$(getconf _NPROCESSORS_ONLN) install || exit $$?	
 
 help:

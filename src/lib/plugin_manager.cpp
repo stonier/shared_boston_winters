@@ -10,6 +10,8 @@
 #include <functional>
 #include <iostream>
 
+#include <drake/systems/framework/leaf_system.h>
+
 #include "../../include/sbw/plugin.hpp"
 
 /*****************************************************************************
@@ -17,6 +19,14 @@
 *****************************************************************************/
 
 namespace sbw {
+
+class BarSystem : public drake::systems::LeafSystem<double> {
+public:
+  DRAKE_NO_COPY_NO_MOVE_NO_ASSIGN(BarSystem)
+  BarSystem() {
+    std::cout << "Drake Systme Bar" << std::endl;
+  }
+};
 
 /*****************************************************************************
 ** Implementation
@@ -26,6 +36,7 @@ PluginManager* PluginManager::instance_ = nullptr;
 
 PluginManager& PluginManager::instance()
 {
+  BarSystem bar_system;
   if (! instance_) {
     instance_ = new PluginManager();
   }
