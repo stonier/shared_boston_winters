@@ -15,4 +15,7 @@ of, but haven't had the chance to investigate myself yet.
 
 > Can we load constructors with variable arguments? Might be possible with an argc, argv approach and doing the conversions in the plugin itself ([example (maybe)](http://www.drdobbs.com/dynamically-loaded-c-objects/184401900?pgno=5))
 
+> Do plugin managers need to be singletons? What happens if two plugin managers
+try to load the same library?
+
 ### Closed Questions

@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
   // that you don't have to recompile the loading program
   const std::string plugin_name = "libagents.so";
 
-  sbw::PluginManager& plugin_manager = sbw::PluginManager::instance();
+  sbw::PluginManager plugin_manager;
   sbw::Plugin& plugin = plugin_manager.findPlugin(plugin_name);
   std::cout << "Name: " << plugin.pluginName() << std::endl;
   std::cout << "Type: " << plugin.pluginType() << std::endl;

@@ -22,14 +22,8 @@ namespace sbw {
 ** Implementation
 *****************************************************************************/
 
-PluginManager* PluginManager::instance_ = nullptr;
-
-PluginManager& PluginManager::instance()
+PluginManager::PluginManager()
 {
-  if (! instance_) {
-    instance_ = new PluginManager();
-  }
-  return *instance_;
 }
 
 Plugin& PluginManager::findPlugin(const std::string& name)

@@ -34,7 +34,7 @@ public:
 };
 
 extern "C" {
-  Plugin* plugin_init()
+  Plugin* create_plugin()
   {
     return new FooAgentPlugin;
   }

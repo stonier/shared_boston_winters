@@ -35,9 +35,14 @@ typedef Plugin* (*plugin_init_func)(void);
 ** Interfaces
 *****************************************************************************/
 
+/**
+ * TODO: Should this be a singleton class? What happens if two
+ * managers try and load separately from the same dynamically loadable
+ * library?
+ */
 class PluginManager {
 public:
-  static PluginManager& instance();
+  PluginManager();
 
   Plugin& findPlugin(const std::string& name)
     throw (SharedLibraryException);
@@ -52,8 +57,6 @@ private:
     ~PluginInfo() { delete plugin; }
   };
 
-  PluginManager() {}
-  static PluginManager* instance_;
   std::map<std::string, PluginInfo* > plugin_map_;
 };
 
