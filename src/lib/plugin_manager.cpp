@@ -22,8 +22,15 @@ namespace sbw {
 ** Implementation
 *****************************************************************************/
 
-PluginManager::PluginManager()
-{}
+PluginManager* PluginManager::instance_ = nullptr;
+
+PluginManager& PluginManager::instance()
+{
+  if (! instance_) {
+    instance_ = new PluginManager();
+  }
+  return *instance_;
+}
 
 Plugin& PluginManager::findPlugin(const std::string& name)
     throw (SharedLibraryException)
@@ -35,10 +42,10 @@ Plugin& PluginManager::findPlugin(const std::string& name)
   PluginInfo* plugin_info = new PluginInfo;
   plugin_info->library = std::make_unique<SharedLibrary>(name);
 
-  std::function<Plugin*()> create_plugin{
-    plugin_info->library->findSymbol<Plugin*()>("create_plugin")
+  std::function<Plugin*()> plugin_init{
+    plugin_info->library->findSymbol<Plugin*()>("plugin_init")
   };
-  plugin_info->plugin = create_plugin();
+  plugin_info->plugin = plugin_init();
 
   if (!plugin_info->plugin) {
     delete plugin_info;
