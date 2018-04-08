@@ -5,25 +5,30 @@
  * Includes
  ****************************************************************************/
 
-#include <dlfcn.h>
 #include <iostream>
+
+#include "../include/sbw/agent_plugin.hpp"
+#include "../include/sbw/plugin_manager.hpp"
 
 /*****************************************************************************
  * Main
  ****************************************************************************/
 
 int main(int argc, char **argv) {
-  const std::string plugin_name = "agents";
+  // in real usage, you'd have an external mechanism feed strings
+  // to the loading program (e.g. command line arguments, ...) so
+  // that you don't have to recompile the loading program
+  const std::string plugin_name = "libagents.so";
 
-  std::cerr << "Before dlopen()...\n";
-  ::dlerror();
-  void* _handle(::dlopen(plugin_name.c_str(), RTLD_GLOBAL | RTLD_NOW));
-  std::cerr << "After dlopen()...\n";
-  if (!_handle) {
-      std::cerr << "Error: " << ::dlerror() << ", exiting...\n";
-      return 2;
+  sbw::PluginManager& plugin_manager = sbw::PluginManager::instance();
+  sbw::Plugin& plugin = plugin_manager.findPlugin(plugin_name);
+  std::cout << "Name: " << plugin.pluginName() << std::endl;
+  std::cout << "Type: " << plugin.pluginType() << std::endl;
+
+  if (plugin.pluginType() == "Agent") {
+    sbw::AgentPlugin& agent_plugin = dynamic_cast<sbw::AgentPlugin&>(plugin);
+    std::cout << "Has this to say: " << agent_plugin.getSayHelloString() << std::endl;
   }
-  ::dlclose(_handle);
-  std::cerr << "After dlclose()...\n";
+
   return 0;
 }

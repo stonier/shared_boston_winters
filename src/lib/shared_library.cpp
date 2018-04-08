@@ -1,11 +1,11 @@
 /**
- * @file /shared_boston_winters/agent_plugin_base.cpp
+ * @file /sbw/src/lib/shared_library.cpp
  */
 /*****************************************************************************
 ** Includes
 *****************************************************************************/
 
-#include "../../include/sbw/agent_plugin_base.hpp"
+#include "../../include/sbw/shared_library.hpp"
 
 #include <iostream>
 
@@ -19,12 +19,21 @@ namespace sbw {
 ** Implementation
 *****************************************************************************/
 
-AgentPluginBase::AgentPluginBase() {
-  std::cout << "AgentPluginBase::AgentPluginBase()" << std::endl;
+SharedLibrary::SharedLibrary(const std::string& name)
+    throw (SharedLibraryException)
+    : handle_(nullptr)
+{
+
+  handle_ = ::dlopen(name.c_str(), RTLD_GLOBAL | RTLD_NOW);
+  if (!handle_) {
+    const char* s = ::dlerror();
+    throw SharedLibraryException(s ? s : "Exact Error Not Reported");
+  }
 }
 
-AgentPluginBase::~AgentPluginBase() {
-  std::cout << "AgentPluginBase::AgentPluginBase()" << std::endl;
+SharedLibrary::~SharedLibrary()
+{
+  ::dlclose(handle_);
 }
 
 /*****************************************************************************

@@ -1,12 +1,11 @@
 /**
- * @file /shared_boston_winters/agents.cpp
+ * @file /sbw/src/lib/plugin.cpp
  */
 /*****************************************************************************
 ** Includes
 *****************************************************************************/
 
-#include <iostream>
-#include "../../include/sbw/agents.hpp"
+#include "../../include/sbw/plugin.hpp"
 
 /*****************************************************************************
 ** Namespaces
@@ -18,17 +17,8 @@ namespace sbw {
 ** Implementation
 *****************************************************************************/
 
-Foo::Foo()  { std::cerr << "Foo::Foo()" << std::endl; }
-
-Foo::~Foo() { std::cerr << "Foo::~Foo()" << std::endl; }
-
-void Foo::init() {
-  std::cout << "Foo::init()" << std::endl;
-}
-
-void Foo::update() {
-  std::cout << "Foo::update()" << std::endl;
-}
+const std::string& Plugin::pluginName() const { return plugin_name_; }
+const std::string& Plugin::pluginType() const { return plugin_type_; }
 
 /*****************************************************************************
  ** Trailers

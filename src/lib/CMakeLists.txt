@@ -2,10 +2,13 @@
 # Libraries
 ##############################################################################
 
-add_library(agent_plugin_framework agent_plugin_base.cpp)
+add_library(plugins plugin.cpp)
 
-add_library(agents agents.cpp)
-target_link_libraries(agents agent_plugin_framework)
+add_library(plugin_manager plugin_manager.cpp shared_library.cpp)
+target_link_libraries(plugin_manager plugins dl)
+
+add_library(agents agent_foo.cpp)
+target_link_libraries(agents plugins)
 
 ##############################################################################
 # Installs
@@ -13,7 +16,8 @@ target_link_libraries(agents agent_plugin_framework)
 
 install(
   TARGETS
-    agent_plugin_framework
+    plugins
+    plugin_manager
     agents
   RUNTIME DESTINATION bin
   ARCHIVE DESTINATION lib

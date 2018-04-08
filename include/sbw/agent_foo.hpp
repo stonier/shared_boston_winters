@@ -1,16 +1,19 @@
 /**
- * @file /sbw/include/sbw/agent_plugin_base.hpp
+ * @file /sbw/include/sbw/agent_foo.hpp
  */
 /*****************************************************************************
 ** Ifdefs
 *****************************************************************************/
 
-#ifndef sbw_AGENT_PLUGIN_BASE_HPP_
-#define sbw_AGENT_PLUGIN_BASE_HPP_
+#ifndef sbw_AGENT_FOO_HPP_
+#define sbw_AGENT_FOO_HPP_
 
 /*****************************************************************************
 ** Includes
 *****************************************************************************/
+
+#include "agent_plugin.hpp"
+#include "plugin.hpp"
 
 /*****************************************************************************
 ** Namespaces
@@ -22,15 +25,20 @@ namespace sbw {
 ** Interfaces
 *****************************************************************************/
 
-class AgentPluginBase {
+class FooAgentPlugin : public AgentPlugin
+{
 public:
-  AgentPluginBase();
-  virtual ~AgentPluginBase();
-  virtual void init() = 0;
-  virtual void update() = 0;
-
-private:
+  FooAgentPlugin();
+  virtual ~FooAgentPlugin();
+  const char* getSayHelloString() const;
 };
+
+extern "C" {
+  Plugin* plugin_init()
+  {
+    return new FooAgentPlugin;
+  }
+}
 
 /*****************************************************************************
 ** Trailers
@@ -38,4 +46,4 @@ private:
 
 } // namespace sbw
 
-#endif /* sbw_AGENT_PLUGIN_BASE_HPP_ */
+#endif /* sbw_AGENT_FOO_HPP_ */

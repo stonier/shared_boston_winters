@@ -9,7 +9,7 @@ add_subdirectory(lib)
 ##############################################################################
 
 add_executable(world main.cpp)
-target_link_libraries(world agent_plugin_framework dl)
+target_link_libraries(world plugin_manager plugins)
 
 install(
   TARGETS
