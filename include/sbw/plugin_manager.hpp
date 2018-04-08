@@ -37,7 +37,7 @@ typedef Plugin* (*plugin_init_func)(void);
 
 class PluginManager {
 public:
-  static PluginManager& instance();
+  PluginManager();
 
   Plugin& findPlugin(const std::string& name)
     throw (SharedLibraryException);
@@ -52,8 +52,6 @@ private:
     ~PluginInfo() { delete plugin; }
   };
 
-  PluginManager() {}
-  static PluginManager* instance_;
   std::map<std::string, PluginInfo* > plugin_map_;
 };
 
