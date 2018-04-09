@@ -26,3 +26,7 @@ I don't think this is patently true. The important thing is the virtual chain of
 ROS' class loader does this. How?
 
 ### Closed Questions
+
+> Linking loader and loadable library against drake
+
+Tested in the `drake` branch for a simple system. Caveat: might not have tickled code that causes problems, but will assume for now this is sufficient.
