@@ -30,7 +30,7 @@ namespace sbw {
 
 class SharedLibraryException : public std::exception {
 public:
-  SharedLibraryException(const char* error) : error_(error) { }
+  SharedLibraryException(const std::string& error) : error_(error) { }
   const char* what() const noexcept { return error_.c_str(); }
 private:
   std::string error_;
@@ -59,7 +59,7 @@ std::function<T> SharedLibrary::findSymbol(const std::string& name) const
   dlerror(); // clear error flags
   void* symbol_address = dlsym(handle_, name.c_str());
   if ( dlerror() ) {
-    throw SharedLibraryException("Symbol Not Found");
+    throw SharedLibraryException(std::string("Symbol Not Found [") + name + std::string("]"));
   }
   return reinterpret_cast<T*>(symbol_address);
 }

@@ -4,7 +4,7 @@
 
 add_library(plugins plugin.cpp)
 
-add_library(plugin_manager plugin_manager.cpp shared_library.cpp)
+add_library(plugin_manager shared_library.cpp)
 target_link_libraries(plugin_manager plugins dl)
 
 add_library(agents agent_foo.cpp)

@@ -12,6 +12,7 @@
 ** Includes
 *****************************************************************************/
 
+#include <functional>
 #include <map>
 #include <memory>
 #include <string>
@@ -26,12 +27,6 @@
 namespace sbw {
 
 /*****************************************************************************
-** Methods
-*****************************************************************************/
-
-typedef Plugin* (*plugin_init_func)(void);
-
-/*****************************************************************************
 ** Interfaces
 *****************************************************************************/
 
@@ -39,12 +34,15 @@ typedef Plugin* (*plugin_init_func)(void);
  * TODO: Should this be a singleton class? What happens if two
  * managers try and load separately from the same dynamically loadable
  * library?
+ *
+ * @tparam PluginType the plugin type, e.g. AgentPlugin
  */
+template <typename PluginType>
 class PluginManager {
 public:
   PluginManager();
 
-  Plugin& findPlugin(const std::string& name)
+  PluginType* findPlugin(const std::string& name)
     throw (SharedLibraryException);
 
 private:
@@ -59,6 +57,42 @@ private:
 
   std::map<std::string, PluginInfo* > plugin_map_;
 };
+
+/*****************************************************************************
+** Template Implementation
+*****************************************************************************/
+
+template <typename PluginType>
+PluginManager<PluginType>::PluginManager()
+{
+}
+
+template <typename PluginType>
+PluginType* PluginManager<PluginType>::findPlugin(const std::string& name)
+    throw (SharedLibraryException)
+{
+  if (plugin_map_.count(name) > 0) {
+    return dynamic_cast<sbw::AgentPlugin*>(plugin_map_[name]->plugin);
+  }
+
+  PluginInfo* plugin_info = new PluginInfo;
+  plugin_info->library = std::make_unique<SharedLibrary>(name);
+
+  std::function<Plugin*()> create_plugin{
+    plugin_info->library->template findSymbol<Plugin*()>("create_plugin")
+  };
+  plugin_info->plugin = create_plugin();
+
+  if (!plugin_info->plugin) {
+    delete plugin_info;
+    throw SharedLibraryException("create_plugin error");
+  }
+  plugin_map_[name] = plugin_info;
+
+  // TODO: A means to check that it has the correct plugin->pluginType() value
+
+  return dynamic_cast<sbw::AgentPlugin*>(plugin_info->plugin);
+}
 
 
 

@@ -20,15 +20,9 @@ int main(int argc, char **argv) {
   // that you don't have to recompile the loading program
   const std::string plugin_name = "libagents.so";
 
-  sbw::PluginManager plugin_manager;
-  sbw::Plugin& plugin = plugin_manager.findPlugin(plugin_name);
-  std::cout << "Name: " << plugin.pluginName() << std::endl;
-  std::cout << "Type: " << plugin.pluginType() << std::endl;
-
-  if (plugin.pluginType() == "Agent") {
-    sbw::AgentPlugin& agent_plugin = dynamic_cast<sbw::AgentPlugin&>(plugin);
-    std::cout << "Has this to say: " << agent_plugin.getSayHelloString() << std::endl;
-  }
+  sbw::PluginManager<sbw::AgentPlugin> plugin_manager;
+  sbw::AgentPlugin* agent_plugin = plugin_manager.findPlugin(plugin_name);
+  std::cout << "Agent Plugin has this to say: " << agent_plugin->getSayHelloString() << std::endl;
 
   return 0;
 }
